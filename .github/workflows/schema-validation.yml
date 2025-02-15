@@ -54,24 +54,24 @@ jobs:
             echo "changes=true" >> $GITHUB_ENV
           fi
 
-      - name: Commit and push OpenAPI changes
-        if: env.changes == 'true'
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: 'GitHub Actions'
-          author_email: 'actions@github.com'
-          message: 'Update OpenAPI spec and API docs'
-          add: 'src/@types/api-docs/openapi.yml src/@types/api-docs/openapi.json docs/api-docs.html'
-          push: true
-          github_token: ${{ secrets.PAT_TOKEN }}
+      # - name: Commit and push OpenAPI changes
+      #   if: env.changes == 'true'
+      #   uses: EndBug/add-and-commit@v9
+      #   with:
+      #     author_name: 'GitHub Actions'
+      #     author_email: 'actions@github.com'
+      #     message: 'Update OpenAPI spec and API docs'
+      #     add: 'src/@types/api-docs/openapi.yml src/@types/api-docs/openapi.json docs/api-docs.html'
+      #     push: true
+      #     github_token: ${{ secrets.PAT_TOKEN }}
 
-      - name: Create empty commit to re-run checks
-        if: env.changes == 'true'
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git commit --allow-empty -m "Re-run checks after OpenAPI update"
-          git push origin HEAD:${{ github.head_ref }}
+      # - name: Create empty commit to re-run checks
+      #   if: env.changes == 'true'
+      #   run: |
+      #     git config --local user.email "actions@github.com"
+      #     git config --local user.name "GitHub Actions"
+      #     git commit --allow-empty -m "Re-run checks after OpenAPI update"
+      #     git push origin HEAD:${{ github.head_ref }}
 
       # Schema validation
       - name: Fetch main branch for Optic (Begin schema validation)
