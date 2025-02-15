@@ -20,7 +20,9 @@
     "test:watch": "jest --watch --config jest.config.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.jest.json",
     "lint": "eslint --ext=.js,.ts,.tsx --fix",
-    "generate-openapi": "tsx src/@types/api-docs/openapi-writer.ts"
+    "generate-openapi": "tsx src/@types/api-docs/openapi-writer.ts",
+    "optic:lint": "optic lint src/@types/api-docs/openapi.yml",
+    "optic:diff": "optic diff src/@types/api-docs/openapi.yml --check --web --base main"
   },
   "devDependencies": {
     "@bahmutov/cy-api": "2.2.8",
@@ -57,6 +59,7 @@
     "lodash": "4.17.21",
     "nodemon": "^3.1.9",
     "npm-run-all2": "7.0.2",
+    "@useoptic/optic": "1.0.5",
     "prettier": "3.5.1",
     "ts-jest": "29.2.5",
     "ts-node": "^10.9.2",
