@@ -20,7 +20,7 @@
     "test:watch": "jest --watch --config jest.config.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.jest.json",
     "lint": "eslint --ext=.js,.ts,.tsx --fix",
-    "generate-openapi": "tsx src/@types/api-docs/openapi-writer.ts",
+    "generate:openapi": "tsx src/@types/api-docs/openapi-writer.ts",
     "optic:lint": "optic lint src/@types/api-docs/openapi.yml",
     "optic:diff": "optic diff src/@types/api-docs/openapi.yml --check --web --base main"
   },
