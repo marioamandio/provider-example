@@ -20,9 +20,9 @@
     "test:watch": "jest --watch --config jest.config.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.jest.json",
     "lint": "eslint --ext=.js,.ts,.tsx --fix",
-    "generate:openapi": "tsx src/@types/api-docs/openapi-writer.ts",
-    "optic:lint": "optic lint src/@types/api-docs/openapi.yml",
-    "optic:diff": "optic diff src/@types/api-docs/openapi.yml --check --web --base main"
+    "generate:openapi": "tsx src/api-docs/openapi-writer.ts",
+    "optic:lint": "optic lint src/api-docs/openapi.yml",
+    "optic:diff": "optic diff src/api-docs/openapi.yml --check --web --base main"
   },
   "devDependencies": {
     "@bahmutov/cy-api": "2.2.8",
@@ -39,6 +39,7 @@
     "@types/node": "22.13.4",
     "@typescript-eslint/eslint-plugin": "8.24.0",
     "@typescript-eslint/parser": "8.24.0",
+    "@useoptic/optic": "1.0.5",
     "cy-retryable-before": "^1.0.2",
     "cy-spok": "1.6.2",
     "cypress": "14.0.3",
@@ -56,10 +57,10 @@
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-prettier": "5.2.3",
     "jest": "29.7.0",
+    "jest-mock-extended": "^4.0.0-beta1",
     "lodash": "4.17.21",
     "nodemon": "^3.1.9",
     "npm-run-all2": "7.0.2",
-    "@useoptic/optic": "1.0.5",
     "prettier": "3.5.1",
     "ts-jest": "29.2.5",
     "ts-node": "^10.9.2",
