@@ -2,60 +2,37 @@ name: Run e2e tests
 on:
   pull_request:
   workflow_dispatch:
+
 # if this branch is pushed back to back, cancel the older branch's workflow
 concurrency:
   group: ${{ github.ref }} && ${{ github.workflow }}
   cancel-in-progress: true
+
 env:
   PORT: 3001
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   DATABASE_URL: 'file:./dev.db'
   # Enable for for cy cloud
   # CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
 jobs:
   e2e-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 30  # Extend overall job timeout
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
-          
+
       - name: Read Node version from .nvmrc
         id: node_version
         run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
-        
-      # Add caching for Node.js
-      - name: Cache Node.js
-        id: node-cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.nvm
-          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}
-        
-      # Attempt standard setup-node with extended timeout
-      - name: Setup Node.js with extended timeout
-        uses: actions/setup-node@v4
-        timeout-minutes: 15  # Increase from default
-        if: steps.node-cache.outputs.cache-hit != 'true'
+
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          
-      # Fallback to manual download if above fails
-      - name: Setup Node manually if automatic setup fails
-        if: ${{ failure() && steps.node-cache.outputs.cache-hit != 'true' }}
-        run: |
-          echo "Attempting manual Node.js download and setup..."
-          curl -o node.tar.gz https://nodejs.org/dist/v${{ env.NODE_VERSION }}/node-v${{ env.NODE_VERSION }}-linux-x64.tar.gz --connect-timeout 60 --retry 5 --retry-delay 5
-          mkdir -p ~/.nvm
-          tar -xzf node.tar.gz -C ~/.nvm
-          mv ~/.nvm/node-v${{ env.NODE_VERSION }}-linux-x64 ~/.nvm/current
-          echo "PATH=$HOME/.nvm/current/bin:$PATH" >> $GITHUB_ENV
-          node --version
-          
+
       - name: Cypress e2e tests 🧪
         uses: cypress-io/github-action@v6.7.11
-        timeout-minutes: 15  # Extend Cypress timeout
         with:
           start: npm run start
           config-file: cypress/config/local.config.ts
